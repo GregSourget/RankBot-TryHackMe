@@ -25,6 +25,8 @@ def login(browser, user, mdp):
 
 credentials = read_credentials('credentials.json')
 print(credentials)
+print(credentials)
+
 
 user = credentials['login']
 mdp = credentials['password']
