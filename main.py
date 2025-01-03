@@ -4,7 +4,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import json
-import time
 
 browser = webdriver.Firefox()
 browser.get('https://tryhackme.com/r/login')
@@ -23,28 +22,34 @@ def bypass_captcha(browser):
         WebDriverWait(browser, 10).until(EC.element_to_be_clickable(
             (By.XPATH, "//span[@id='recaptcha-anchor']"))).click()
 
-        time.sleep(5)
     except Exception as exception:
         print("Error during CAPTCHA bypass:", exception)
+    
+    # temp
 
-def login(browser, user, mdp):
+    bouton_login = WebDriverWait(browser, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//button[normalize-space(text())='Log In']"))
+    )
+    bouton_login.click()
+
+def login(browser, mail, mdp):
     """Whole login process"""
     login_field = browser.find_element(By.ID, 'username-or-email-field')
     login_field.clear()
-    login_field.send_keys(user)
+    login_field.send_keys(mail)
 
     password_field = browser.find_element(By.ID, 'password-field')
     password_field.clear()
     password_field.send_keys(mdp)
 
-    password_field.send_keys(Keys.RETURN)
+    # password_field.send_keys(Keys.RETURN)
 
 credentials = read_credentials('credentials.json')
 print(credentials)
 
-user = credentials['login']
+mail = credentials['mail']
 mdp = credentials['password']
 
-bypass_captcha(browser)
+login(browser, mail, mdp)
 
-login(browser, user, mdp)
+bypass_captcha(browser)
