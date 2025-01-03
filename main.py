@@ -30,5 +30,4 @@ user = credentials['login']
 mdp = credentials['password']
 
 login(browser, user, mdp)
-print("test")
 
